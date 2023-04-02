@@ -1,0 +1,115 @@
+1.USERS CCREATION
+user1 = User.objects.create_user('Jhon')
+user2 = User.objects.create_user('Felix')
+
+2.AUTHOR JOIN USERS
+Author.objects.create(authorUser=user1)
+Author.objects.create(authorUser=user2)
+
+3.THEMES
+Category.objects.create(name = 'Engineering')
+Category.objects.create(name = 'Development')
+Category.objects.create(name = 'Design')
+Category.objects.create(name = 'Recruting&Researching')
+
+4.POST CONTENT
+>>>author=Author.objects.get(id=1)
+>>>author
+Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum', text = 'TextHereText')
+Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum1', text = 'TextHereText1')
+Post.objects.create(authorPost=author, categoryType = 'NW', title = 'Lorem ipsum2', text = 'TextHereText2')
+>>>author2=Author.objects.get(id=1)
+>>>author2
+Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum', text = 'TextHereText')
+Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum1', text = 'TextHereText1')
+Post.objects.create(authorPost=author, categoryType = 'NW', title = 'Lorem ipsum2', text = 'TextHereText2')
+
+5.CATEGORY FOR POSTS
+author
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=2))
+author2
+Post.objects.get(id=4).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=4).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=6).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=6).postCategory.add(Category.objects.get(id=4))
+Post.objects.get(id=6).postCategory.add(Category.objects.get(id=3))
+Post.objects.get(id=5).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=5).postCategory.add(Category.objects.get(id=4))
+
+
+6.LEFT COMMENTS
+author
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text = 'Emotion')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, text = 'Emotion')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text = 'Emotion')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, text = 'Emotion')
+author2
+Comment.objects.create(commentPost=Post.objects.get(id=5), commentUser=Author.objects.get(id=2).authorUser, text = 'Emotion2')
+Comment.objects.create(commentPost=Post.objects.get(id=4), commentUser=Author.objects.get(id=2).authorUser, text = 'Emotion2')
+Comment.objects.create(commentPost=Post.objects.get(id=6), commentUser=Author.objects.get(id=2).authorUser, text = 'Emotion2')
+
+7.LIKE/DISLIKE
+author
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=4).dislike()
+Comment.objects.get(id=2).dislike()
+Post.objects.get(id=2).like()
+Post.objects.get(id=1).like()
+Post.objects.get(id=3).dislike()
+Comment.objects.get(id=4).like()
+Comment.objects.get(id=4).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Comment.objects.get(id=2).dislike()
+Post.objects.get(id=3).like()
+Post.objects.get(id=3).like()
+Post.objects.get(id=1).like()
+
+CHECKING
+>>>Post.objects.get(id=1).ratingPost
+
+author2
+Comment.objects.get(id=5).like()
+Comment.objects.get(id=6).like()
+Comment.objects.get(id=4).dislike()
+Post.objects.get(id=5).like()
+Post.objects.get(id=5).like()
+Post.objects.get(id=6).dislike()
+Post.objects.get(id=4).dislike()
+
+CHECKING
+>>>Post.objects.get(id=4).ratingPost
+
+
+8.UDATE_RATING
+>>>Author.objects.get(id=1)
+>>>a = Author.objects.get(id=1)
+a.update_rating()
+a.ratingAuthor
+>>>b = Author.objects.get(id=2)
+>>>b.update_rating()
+b.ratingAuthor
+
+9.ORDER_BY FOR BEST
+a = Author.objects.order_by('-ratingAuthor')[:1]
+for i in a:
+...     i.ratingAuthor
+...     i.authorUser.username
+
+10.ALL INFORMATION
+r = Post.objects.order_by('-ratingPost')[:1].get()
+r.dateCreation.strftime("%B %d, %Y, %H:%M")
+r.authorPost.authorUser
+r.ratingPost
+r.title
+r.preview()
+
+11.COMMENTS
+comment = Comment.objects.all().filter(commentPost_id = r)
+comment.values('dateCreation__date','commentUser','ratingComment','text')
