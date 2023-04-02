@@ -1,4 +1,4 @@
-1.USERS CCREATION
+1.USERS CREATION
 user1 = User.objects.create_user('Jhon')
 user2 = User.objects.create_user('Felix')
 
@@ -18,7 +18,7 @@ Category.objects.create(name = 'Recruting&Researching')
 Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum', text = 'TextHereText')
 Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum1', text = 'TextHereText1')
 Post.objects.create(authorPost=author, categoryType = 'NW', title = 'Lorem ipsum2', text = 'TextHereText2')
->>>author2=Author.objects.get(id=1)
+>>>author2=Author.objects.get(id=2)
 >>>author2
 Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum', text = 'TextHereText')
 Post.objects.create(authorPost=author, categoryType = 'AT', title = 'Lorem ipsum1', text = 'TextHereText1')
